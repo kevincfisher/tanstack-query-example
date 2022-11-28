@@ -3,7 +3,6 @@ import { prisma } from "../../../server/db/client"
 
 const putTodos = async (req: NextApiRequest, res: NextApiResponse) => {
   const todoUpdate = req.body["updatedTodo"]
-  console.log(todoUpdate)
   await prisma.todo.update({
     where: {
       id: todoUpdate.id

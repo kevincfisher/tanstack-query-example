@@ -6,7 +6,7 @@ declare global {
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
-console.log(env)
+
 export const prisma =
   global.prisma ||
   new PrismaClient({

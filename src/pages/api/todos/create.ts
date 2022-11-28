@@ -4,7 +4,6 @@ import { prisma } from "../../../server/db/client"
 const postTodos = async (req: NextApiRequest, res: NextApiResponse) => {
   const todo = req.body["todo"]
   
-  console.log(todo)
 await prisma.todo.create({
   data: todo
 })

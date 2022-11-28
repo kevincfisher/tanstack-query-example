@@ -1,8 +1,9 @@
 import { useState } from "react"
+import Image from "next/image"
 import type { Todo } from "@prisma/client"
 import {formatDistanceToNow} from 'date-fns'
 import {useQueryClient, useMutation} from '@tanstack/react-query'
-
+import TrashIcon from '../../public/images/trash.svg'
 interface TodoCardProps {
   todo: Todo
 }
@@ -99,26 +100,28 @@ export const TodoCard = ({ todo }:TodoCardProps) => {
     }
   })
 
-return (<article className="p-10 bg-white text-[#2e026d] rounded-md  shadow-md flex flex-col">
-                <div className="flex justify-between">
-                <h3>{isComplete ? <s>{todo.title}</s> : <>{todo.title}</>}</h3>
-                <div>
-                 <input type="checkbox" checked={isComplete} onClick={() => {
-                  toggleTodoMutation.mutate({
-                    id: todo.id, 
-                    isComplete: !isComplete, 
-                    completionDate: !isComplete ? new Date() : null
-                  })
-                  setIsComplete(!isComplete)
-                  }
-                  }/> 
-                </div>
-                <div>
-                  <button type="button" onClick={() => deleteTodoMutation.mutate(todo.id)}>Delete Todo</button>
-                </div>
-                </div>
-                <div>Task created: {formatDistanceToNow(new Date(todo.createdAt), {addSuffix: true})}</div>
-                <div>Task updated: {formatDistanceToNow(new Date(todo.updatedAt), { addSuffix: true})} </div>
-                {todo.completionDate ? (<div>Task complete: {formatDistanceToNow(new Date(todo.completionDate))}</div>) : null}
-              </article>)
+return (
+<article className="p-10 bg-white text-[#2e026d] rounded-md  shadow-md flex flex-col">
+  <div className="flex justify-between">
+    <div>
+      <input type="checkbox" checked={isComplete} onClick={() => {
+        toggleTodoMutation.mutate({
+          id: todo.id, 
+          isComplete: !isComplete, 
+          completionDate: !isComplete ? new Date() : null
+        })
+        setIsComplete(!isComplete)
+        }
+      }/> 
+    </div>
+    <div>
+      <button type="button" onClick={() => deleteTodoMutation.mutate(todo.id)}><Image src={TrashIcon} width={20} height={20} alt="Delete Todo"/></button>
+    </div>
+  </div>
+  <h3 className="text-xl">{isComplete ? <s>{todo.title}</s> : <>{todo.title}</>}</h3>
+  <div>Task created: {formatDistanceToNow(new Date(todo.createdAt), {addSuffix: true})}</div>
+  <div>Task updated: {formatDistanceToNow(new Date(todo.updatedAt), { addSuffix: true})} </div>
+  {todo.completionDate ? (<div>Task complete: {formatDistanceToNow(new Date(todo.completionDate))}</div>) : null}
+</article>
+)
 }

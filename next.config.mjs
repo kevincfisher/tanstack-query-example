@@ -5,13 +5,15 @@
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
 
+import withImages from 'next-images'
+
 /** @type {import("next").NextConfig} */
-const config = {
+const config = withImages({
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
   },
-};
+});
 export default config;
